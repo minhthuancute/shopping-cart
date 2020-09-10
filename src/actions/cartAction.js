@@ -1,6 +1,8 @@
 import {
    ADD_CART,
-   REMOVE_CART
+   REMOVE_CART,
+   INCRE_CART,
+   DECRE_CART
 } from './type'
 
 export const addCart = (product, price, input) => {
@@ -10,6 +12,26 @@ export const addCart = (product, price, input) => {
          product,
          price,
          input
+      })
+   }
+}
+
+export const increCart = (id, price) => {
+   return dispatch => {
+      dispatch({
+         type: INCRE_CART,
+         id,
+         price
+      })
+   }
+}
+
+export const decreCart = (id, price) => {
+   return dispatch => {
+      dispatch({
+         type: DECRE_CART,
+         id,
+         price
       })
    }
 }

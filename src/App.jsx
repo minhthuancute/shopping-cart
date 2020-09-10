@@ -6,7 +6,7 @@ import { SearchOutlined, ShoppingCartOutlined, FrownOutlined } from '@ant-design
 import 'antd/dist/antd.css'
 import { fetchProduct } from './actions/productsAction'
 import { isEmpty } from './functions/isEmpty'
-import Product from './components/Products';
+import Product from './components/Products'
 import Cart from './components/Cart';
 import './App.scss'
 
@@ -29,9 +29,12 @@ const App = () => {
 
    useEffect(() => {
       dispatch(fetchProduct());
-      const reduceTotal = JSON.parse(localStorage.getItem('carts')).reduce((acc, val) => {
-         return acc + val.price;
-      }, 0)
+      const valueStorage = localStorage.getItem('carts');
+      const reduceTotal = valueStorage
+         ? JSON.parse(localStorage.getItem('carts')).reduce((acc, val) => {
+            return acc + val.price;
+         }, 0) : 0;
+
       setTotal(reduceTotal);
       return () => { }
    }, [dispatch, stateCart])
