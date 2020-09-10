@@ -1,7 +1,6 @@
 
 import React, { useState } from 'react'
-import { Row, Col, Input, Button } from 'antd'
-import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import { Row, Col, Input } from 'antd'
 import PropTypes from 'prop-types'
 
 const Counter = ({ setValue }) => {
@@ -12,21 +11,11 @@ const Counter = ({ setValue }) => {
       setValueInput(e.target.value);
    }
 
-   const handleIncre = () => setValueInput(parseInt(valueInput) + 1);
-   const handleDecre = () => setValueInput(parseInt(valueInput) - 1 >= 0 ? parseInt(valueInput) - 1 : 0);
    return (
       <>
          <Row align='middle' justify='space-between'>
-            <Col span={4}>
-               <Button onClick={handleDecre} shape='circle' icon={<MinusOutlined />} />
-            </Col>
-
-            <Col span={10}>
+            <Col span={24}>
                <Input onChange={changeInput} value={valueInput} style={{ textAlign: "center" }} type='number' />
-            </Col>
-
-            <Col span={4}>
-               <Button onClick={handleIncre} shape='circle' icon={<PlusOutlined />} />
             </Col>
          </Row>
       </>
