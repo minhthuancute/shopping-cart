@@ -3,7 +3,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeCart, increCart, decreCart } from '../actions/cartAction'
 import { Card, Typography, Avatar, Row, Col, Button } from 'antd'
-import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons';
+import { CloseOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import PropTypes from 'prop-types'
 
 const { Text } = Typography;
 
@@ -13,8 +14,8 @@ const Cart = ({ stateCart }) => {
    const indexProduct = (id) => stateProducts.findIndex(val => val.id === id);
    const handleRemoveCart = (id) => dispatch(removeCart(id));
 
-   const handleIncre = (id, price) => dispatch(increCart(id, stateProducts[indexProduct(id)].price));
-   const handleDecre = (id, price) => dispatch(decreCart(id, stateProducts[indexProduct(id)].price));
+   const handleIncre = (id) => dispatch(increCart(id, stateProducts[indexProduct(id)].price));
+   const handleDecre = (id) => dispatch(decreCart(id, stateProducts[indexProduct(id)].price));
 
    return (
       <div>
@@ -41,8 +42,8 @@ const Cart = ({ stateCart }) => {
                            </Col>
 
                            <Col span={4}>
-                              <Button onClick={() => handleDecre(val.id, val.price)} size='small' icon={< MinusOutlined />} />
-                              <Button onClick={() => handleIncre(val.id, val.price)} size='small' icon={< PlusOutlined />} />
+                              <Button onClick={() => handleDecre(val.id)} size='small' icon={< MinusOutlined />} />
+                              <Button onClick={() => handleIncre(val.id)} size='small' icon={< PlusOutlined />} />
                            </Col>
 
                            <Col span={2}>
@@ -54,8 +55,12 @@ const Cart = ({ stateCart }) => {
                ))
             }
          </Row>
-      </div >
+      </div>
    )
 }
 
-export default Cart
+Cart.propTypes = {
+   stateCart: PropTypes.array
+}
+
+export default React.memo(Cart)

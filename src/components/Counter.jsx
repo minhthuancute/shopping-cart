@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Row, Col, Input, Button } from 'antd'
 import { MinusOutlined, PlusOutlined } from '@ant-design/icons'
+import PropTypes from 'prop-types'
 
 const Counter = ({ setValue }) => {
    const [valueInput, setValueInput] = useState(1);
@@ -30,5 +31,9 @@ const Counter = ({ setValue }) => {
          </Row>
       </>
    )
+}
+
+Counter.propTypes = {
+   setValue: PropTypes.func
 }
 export default Counter

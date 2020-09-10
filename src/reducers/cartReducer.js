@@ -31,8 +31,7 @@ const cartReducer = (state = initialState, action) => {
 
       case DECRE_CART: {
          const index = state.findIndex(val => val.id === action.id);
-         return [...state.slice(0, index),
-            {
+         return [...state.slice(0, index), {
                ...state[index],
                price: state[index].price - action.price >= action.price ? state[index].price - action.price : action.price
             },

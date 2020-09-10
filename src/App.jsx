@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, lazy, Suspense } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Input, Button, Layout, Popover, Typography, Image, Row, Col } from 'antd'
 import { SearchOutlined, ShoppingCartOutlined, FrownOutlined } from '@ant-design/icons';
@@ -7,8 +7,9 @@ import 'antd/dist/antd.css'
 import { fetchProduct } from './actions/productsAction'
 import { isEmpty } from './functions/isEmpty'
 import Product from './components/Products'
-import Cart from './components/Cart';
 import './App.scss'
+
+const Cart = lazy(() => import('./components/Cart'))
 
 const { Header } = Layout;
 const { Text } = Typography;
@@ -29,6 +30,11 @@ const App = () => {
 
    useEffect(() => {
       dispatch(fetchProduct());
+      return () => { }
+   }, [dispatch])
+
+
+   useEffect(() => {
       const valueStorage = localStorage.getItem('carts');
       const reduceTotal = valueStorage
          ? JSON.parse(localStorage.getItem('carts')).reduce((acc, val) => {
@@ -81,7 +87,11 @@ const App = () => {
                      title={stateCart.length === 0
                         ? <Text> Your Cart Is Empty <FrownOutlined /></Text>
                         : <Text>Total: {total} Vnd</Text>}
-                     content={<Cart stateCart={stateCart} />} trigger="click">
+                     content={
+                        <Suspense fallback={<p>Loading</p>}>
+                           <Cart stateCart={stateCart} />
+                        </Suspense>
+                     } trigger="click">
                      <Button icon={<ShoppingCartOutlined style={{ fontSize: 20 }} />} ghost />
                      <Button style={{
                         transform: 'translate(-2px, -16px)'
@@ -95,6 +105,7 @@ const App = () => {
             isEmpty(productFilter) && isSearch
                ? <Text style={{ textAlign: "center", padding: '20px 0' }}>No Result <FrownOutlined /></Text>
                : <Product products={productFilter} />
+
          }
       </Layout >
    )

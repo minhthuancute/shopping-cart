@@ -5,6 +5,7 @@ import { addCart } from '../actions/cartAction'
 import { Card, Layout, Row, Col, Button, Modal, Image, Typography, Select } from 'antd'
 import { isEmpty } from '../functions/isEmpty'
 import Counter from './Counter'
+import PropTypes from 'prop-types'
 
 const { Meta } = Card;
 const { Content } = Layout;
@@ -123,6 +124,10 @@ const Products = ({ products }) => {
          </Content>
       </Layout>
    )
+}
+
+Products.propTypes = {
+   products: PropTypes.array
 }
 
 export default React.memo(Products)
