@@ -26,17 +26,14 @@ const Cart = ({ stateCart }) => {
                      <Card hoverable>
                         <Row justify="space-between" align='middle'>
                            <Col span={15}>
-                              <Row style={{
-                                 display: "flex",
-                                 width: '100%'
-                              }}>
+                              <Row style={{ width: '100%' }}>
                                  <Col span={9}>
                                     <Avatar size='large' shape="square" src={val.image} />
                                  </Col>
 
                                  <Col span={15}>
                                     <Text>{val.name}</Text> <br />
-                                    <Text type="secondary">{`${val.price} Vnd`}</Text>
+                                    <Text type="secondary">{val.price} Vnd - {val.price / stateProducts[indexProduct(val.id)].price} Nos</Text>
                                  </Col>
                               </Row>
                            </Col>

@@ -7,8 +7,9 @@ const Counter = ({ setValue }) => {
    const [valueInput, setValueInput] = useState(1);
 
    const changeInput = e => {
-      setValue(e.target.value);
-      setValueInput(e.target.value);
+      const value = e.target.value;
+      setValue(isNaN(value) ? '' : value);
+      setValueInput(isNaN(value) ? '' : value);
    }
 
    return (

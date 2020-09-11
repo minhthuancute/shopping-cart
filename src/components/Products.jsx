@@ -2,17 +2,19 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { addCart } from '../actions/cartAction'
-import { Card, Layout, Row, Col, Button, Modal, Image, Typography, Select } from 'antd'
+import { Card, Layout, Row, Col, Button, Modal, Image, Typography } from 'antd'
 import { isEmpty } from '../functions/isEmpty'
 import Counter from './Counter'
 import PropTypes from 'prop-types'
+import 'react-notifications/lib/notifications.css';
+import { NotificationContainer, NotificationManager } from 'react-notifications';
+
 
 const { Meta } = Card;
 const { Content } = Layout;
 const { Text } = Typography;
-const { Option } = Select;
 
-const Products = ({ products }) => {
+const Products = ({ products, valueOption }) => {
    const dispatch = useDispatch();
    const [loadingAddCart, setLoadingAddCart] = useState({
       loading: false,
@@ -20,8 +22,7 @@ const Products = ({ products }) => {
    });
    const [propsProduct, setPropsProduct] = useState(null);
    const [valueModal, setValueModal] = useState({});
-   const [valueInput, setValueInput] = useState(null);
-   const [valueOption, setValueOption] = useState('All');
+   const [valueInput, setValueInput] = useState(1);
 
    useEffect(() => {
       setPropsProduct(products)
@@ -31,15 +32,16 @@ const Products = ({ products }) => {
    const handleShowModal = (obj) => setValueModal(obj);
 
    const handleAddCart = (product, price, index) => {
-      dispatch(addCart(product, price, valueInput * price));
-      setLoadingAddCart({
-         loading: true,
-         index
-      });
-   }
-
-   const changeOption = value => {
-      setValueOption(value);
+      if (valueInput * 1 === 0) {
+         NotificationManager.error('Vui Long Dien So Luong San Pham', 'Them San Pham Loi', 5000)
+      }
+      else {
+         dispatch(addCart(product, price, valueInput * price));
+         setLoadingAddCart({
+            loading: true,
+            index
+         });
+      }
    }
 
    useEffect(() => {
@@ -58,10 +60,11 @@ const Products = ({ products }) => {
                visible={!isEmpty(valueModal)}
                footer={false}
                onCancel={() => setValueModal({})}
+               centered={true}
             >
                {
                   !isEmpty(valueModal) && <>
-                     <Image src={valueModal.image} />
+                     <Image style={{ width: '100%' }} src={valueModal.image} />
                      <Text>{valueModal.name}</Text>
                      <br />
                      <Text type='secondary'>{valueModal.price} Vnd</Text>
@@ -73,27 +76,10 @@ const Products = ({ products }) => {
                display: "flex",
                justifyContent: "center"
             }}>
-               <div style={{ width: 1125, marginTop: 16, marginLeft: 15 }}>
-                  <Select onChange={changeOption} defaultValue='All' style={{ width: 150, textAlign: "center" }}>
-                     <Option value="All">All</Option>
-                     <Option value="Vegetables">Vegetables</Option>
-                     <Option value="Fruits">Fruits</Option>
-                     <Option value="Nuts">Nuts</Option>
-                  </Select>
-               </div>
-            </div>
-
-            <div style={{
-               display: "flex",
-               justifyContent: "center"
-            }}>
 
                <Row gutter={16} style={{
-                  display: "flex",
                   paddingTop: 16,
                   width: 1125,
-                  justifyContent: "flex-start",
-                  flexWrap: "wrap"
                }}>
 
                   {
@@ -119,15 +105,17 @@ const Products = ({ products }) => {
                      ))
                   }
                </Row>
-
             </div>
+
+            <NotificationContainer />
          </Content>
       </Layout>
    )
 }
 
 Products.propTypes = {
-   products: PropTypes.array
+   products: PropTypes.array,
+   valueOption: PropTypes.string
 }
 
 export default React.memo(Products)
