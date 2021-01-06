@@ -1,3 +1,10 @@
+Technology: 
+- Functional compnent
+- React hook: Usestate, Useeffect
+- Ant design, scss
+- Redux thunk
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
